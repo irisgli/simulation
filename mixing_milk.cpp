@@ -2,40 +2,35 @@
 #include <vector>
 #include <cstdio> 
 #include <algorithm>
+
 using namespace std;
+
+const int N = 3; // num buckets 
+const int TURN_NUM = 100;
 
 int main() {
     freopen("mixmilk.in", "r", stdin);
-    freopen("mixmilk.out", "w", stdout);
 
-    vector <int> capacity(3);
-    vector <int> milk(3);
-    int new_amount, to, from; 
+    vector<int> capacity(N);
+    vector<int> milk(N);
 
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < N; i++) {
         scanf("%d %d", &capacity[i], &milk[i]);
     }
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < TURN_NUM; i++) {
+        int bucket1 = i % N;
+        int bucket2 = (i + 1) % N;
 
-        for(int i = 0; i < 100; i++) {
-            int from = i % 3;
-            int to = (i + 1) % 3;
-        }
-        new_amount = milk[from] + milk[to];
-        
-        if(new_amount <= capacity[to]){
-            milk[to] = new_amount;
-            milk[from] = 0;
-        }
-        else {
-            milk[to] = capacity[to];
-            milk[from] = new_amount - capacity[to];
-        }
+        int amt = min(milk[bucket1], capacity[bucket2] - milk[bucket2]);
+
+        milk[bucket1] -= amt;
+        milk[bucket2] += amt;
     }
 
-    for(int i = 0; i < 3; i++) {
-        printf("%d\n", milk[i]);
+    freopen("mixmilk.in", "w", stdout);
+    for(int m : milk) {
+        cout << m << "\n";
     }
 
 }
