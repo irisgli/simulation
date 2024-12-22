@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdio>
-#include <vector>
+#include <cmath> 
 
 using namespace std;
 
@@ -9,25 +9,27 @@ int main() {
     freopen("lostcow.out", "w", stdout);
 
     int john, bessie;
-    scanf("%d %d", &john, &bessie);
-    
+    cin >> john >> bessie;
+
     int total_distance = 0;
     int current_position = john;
-    int direction = 1;
+    int direction = 1; 
     int step_size = 1;
 
-    int max_distance = 9 * std::abs(john - bessie);
-    
-    while (total_distance <= max_distance) {
-        int nex_position = john + direction * step_size;
+    while (true) {
+        int next_position = john + direction * step_size;
 
-        total_distance += std::abs(bessie - current_position);
-        break;
-        
-        direction *= -1;
-        step_size = *= 2;
+        if ((direction == 1 && current_position <= bessie && bessie <= next_position) || 
+            (direction == -1 && next_position <= bessie && bessie <= current_position)) {
+            total_distance += abs(bessie - current_position);
+            break;
+        } else {
+            total_distance += abs(next_position - current_position);
+            current_position = next_position; 
+            direction *= -1; 
+            step_size *= 2; 
     }
 
-    printf("%d\n", total_distance);
-
+    cout << total_distance << endl;
+    return 0;
 }
